@@ -35,7 +35,7 @@ const TextPhone = styled.Text`
   letter-spacing: 0.12px;
 `;
 
-const View2 = styled.View`
+const ViewDetail = styled.View`
   height: 100%;
   flex-direction: row;
   align-items: center;
@@ -76,13 +76,13 @@ const HistoryForm = (props) => {
           <TextPhone>{props.phone}</TextPhone>
         </InfoContact>
 
-        <View2>
+        <ViewDetail>
           <TimePhone>Hôm Nay</TimePhone>
 
           <TouchableOpacity>
             <IconInfoPhone source={ICON_INFO_CALL}/>
           </TouchableOpacity>
-        </View2>
+        </ViewDetail>
       </View>
 
     </Container>

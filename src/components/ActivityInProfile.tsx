@@ -34,10 +34,10 @@ interface props {
   data: Array<string>;
   onPress: () => void;
   text: string;
-  srcActive, srcInactive: string
+  src: string
 }
 
-export const ActivityInProfile = ({ type, data, onPress, srcActive, srcInactive, text } : props) => {
+export const ActivityInProfile = ({ type, data, onPress, src, text } : props) => {
   const StyleIcon = useMemo(() => {
     if(type === 'call') return {
       width: 18,
@@ -63,10 +63,10 @@ export const ActivityInProfile = ({ type, data, onPress, srcActive, srcInactive,
 
   return (
     <View>
-          <Circle isActive={isActive} onPress={onPress}>
-            <Icon isActive={isActive} style={StyleIcon} source={srcActive} />
-          </Circle>
-          <Text isActive={isActive}>{text}</Text>
-        </View>
+      <Circle isActive={isActive} onPress={onPress}>
+        <Icon isActive={isActive} style={StyleIcon} source={src} />
+      </Circle>
+      <Text isActive={isActive}>{text}</Text>
+    </View>
   )
 }

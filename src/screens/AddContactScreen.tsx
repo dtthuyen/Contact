@@ -128,32 +128,25 @@ const TouchDate = styled.TouchableOpacity`
   width: 100%;
 `;
 
-const TextDate = styled.Text`
-  color: #2F80ED;
+const TextDate = styled.Text<{ isNull: boolean }>`
+  color: ${p => p.isNull ? "#2F80ED" : "#BDBDBD"};
   font-size: 15px;
   margin-left: 16px;
   width: 100%;
 `;
 
-const TextDateNull = styled(TextDate)`
-  color: #BDBDBD;
-`;
-
 export const AddContactScreen = ({ route }) => {
   const navigation = useNavigation();
-
   const [isChange, setIsChange] = useState<boolean>(false);
 
   const setChange = useCallback(() => {
     setIsChange(true);
   }, []);
 
-  const { screen } = route.params;
   const props = route.params;
+  const { _contact, idContact } = props || {};
 
   const listId = useListId("all");
-
-  const { _contact, idContact } = props || {};
 
   const [item, setItem] = useState<Contact>({
     value: "",
@@ -219,7 +212,7 @@ export const AddContactScreen = ({ route }) => {
     setChange();
   }, [item]);
 
-  const editIcon = useMemo(() => {
+  const ChangeAvt = useMemo(() => {
     return <ImgAvt source={pathAvt} />;
   }, [pathAvt]);
 
@@ -269,16 +262,16 @@ export const AddContactScreen = ({ route }) => {
     return string;
   }, [dateString, birthday]);
 
-  const TextDateString = useMemo(() => {
-    return getBirthday
-      ? <TouchDate onPress={setOpenDatePicker}>
-        <TextDate>{getBirthday}</TextDate>
-      </TouchDate>
-
-      : <TouchDate onPress={setOpenDatePicker}>
-        <TextDateNull>ngày sinh</TextDateNull>
-      </TouchDate>;
+  const hasBirthday = useMemo(() => {
+    return getBirthday.length > 0;
   }, [getBirthday]);
+
+  const TextDateString = useMemo(() => {
+    return (
+      <TouchDate onPress={setOpenDatePicker}>
+        <TextDate isNull={hasBirthday}>{hasBirthday ? getBirthday : "ngày sinh"}</TextDate>
+      </TouchDate>
+    )}, [getBirthday]);
 
   const onHandleAddContact = useCallback(() => {
     if (item) {
@@ -288,11 +281,13 @@ export const AddContactScreen = ({ route }) => {
         avt: pathAvt,
         birthday: getBirthday
       };
-      console.log(">>>>>TestNew Contact: ", newItem);
+      console.log(">>>>>Add/Edit Contact: ", newItem);
 
-      SyncDataContacts([newItem], listId);
-
-      navigation.navigate("ProfileContact", { idContact: newItem.id });
+      // co it nhat ten/sdt/email moi luu
+      if(newItem.phone.length > 0 || newItem.email.length > 0 || newItem.value.trim().length > 0) {
+        SyncDataContacts([newItem], listId);
+        navigation.navigate("ProfileContact", { idContact: newItem.id });
+      } else navigation.navigate("Contacts");
     }
   }, [item, listId, pathAvt, getBirthday]);
 
@@ -310,10 +305,7 @@ export const AddContactScreen = ({ route }) => {
       <KeyboardAwareScrollView keyboardShouldPersistTaps={"always"}>
         <ViewAvt>
           <AddAvt>
-            <CircleAvt>
-              {editIcon}
-            </CircleAvt>
-
+            <CircleAvt>{ChangeAvt}</CircleAvt>
             <BtnAddAvt onPress={chooseFile}>
               <ImgAddAvt source={IC_CAMERA_ADD_AVT} />
             </BtnAddAvt>
@@ -340,7 +332,6 @@ export const AddContactScreen = ({ route }) => {
 
         <MoreInfo>
           <AddInfoForm
-            screen={screen}
             type={"phone"}
             text={"thêm số điện thoại"}
             hintText={"số điện thoại"}
@@ -348,7 +339,6 @@ export const AddContactScreen = ({ route }) => {
             setInfo={onChange}
             setChange={setChange} />
           <AddInfoForm
-            screen={screen}
             type={"email"}
             text={"thêm email"}
             hintText={"email"}
@@ -356,7 +346,6 @@ export const AddContactScreen = ({ route }) => {
             setInfo={onChange}
             setChange={setChange} />
           <AddInfoForm
-            screen={screen}
             type={"addr"}
             text={"thêm địa chỉ"}
             hintText={"địa chỉ"}

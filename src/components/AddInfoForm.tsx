@@ -40,7 +40,6 @@ const TextContent = styled.TextInput`
 `;
 
 interface Props {
-  screen: string;
   type: string;
   dataList?: Array<string>;
   hintText: string;
@@ -49,7 +48,7 @@ interface Props {
   setChange: () => void;
 }
 
-export const AddInfoForm = (({ screen, type, dataList, hintText, text, setInfo, setChange }: Props) => {
+export const AddInfoForm = (({ type, dataList, hintText, text, setInfo, setChange }: Props) => {
   const [list, setList] = useState<Array<{ id: string, data: any }>>([]);
 
   useEffect(() => {
@@ -119,7 +118,7 @@ export const AddInfoForm = (({ screen, type, dataList, hintText, text, setInfo, 
             <TextContent placeholder={hintText}
                          onChangeText={text => onChangeText(text, data.id)}
                          keyboardType={keyboard}
-                         autoFocus={ data.data ? false : true }
+                         autoFocus={ !data.data }
             >{data.data}</TextContent>
 
           </AddView>

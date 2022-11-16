@@ -86,7 +86,7 @@ export const ContactListScreen = () => {
   },[text, contactsByKeyValue])
 
   const onPressRight = useCallback(() => {
-    navigation.navigate("AddContact", { screen: "add new contact" });
+    navigation.navigate("AddContact");
   }, []);
 
   const renderCustomItem = useCallback((item) => (

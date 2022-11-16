@@ -9,7 +9,7 @@ import {
   IC_btnMESS, ICON_InMail, ICON_UnPhone, ICON_UnSms, ICON_UnVideo,
   MASK_AVT
 } from "../assets";
-import { Alert, Linking } from "react-native";
+import { Alert, Linking, View } from "react-native";
 import { InfoContact } from "../components/InfoContact";
 import { useNavigation } from "@react-navigation/native";
 import { Contact } from "../store/contact";
@@ -25,7 +25,7 @@ const Container = styled.View`
   background-color: white;
 `;
 
-const Section1 = styled.View`
+const Overview = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -66,12 +66,6 @@ const ViewAct = styled.View`
   margin-top: 25px;
   margin-bottom: 30px;
   padding: 0px 15px;
-`;
-
-const Section2 = styled.View`
-`;
-
-const Section3 = styled.View`
 `;
 
 const ViewNote = styled.View`
@@ -140,7 +134,7 @@ export const ProfileContactScreen = ({ route } ) => {
   console.log('Profile:', item);
 
   const editInfo = useCallback(() => {
-    navigation.navigate("AddContact", { screen: "edit info", _contact: item, idContact })
+    navigation.navigate("AddContact", { _contact: item, idContact })
   }, [item])
 
   const [textNote, setTextNote] = useState<string>('')
@@ -168,7 +162,6 @@ export const ProfileContactScreen = ({ route } ) => {
       type: 'error',
       text1: title
     });
-    console.log('show toast');
   },[])
 
   const onCall = useCallback(async () => {
@@ -190,7 +183,6 @@ export const ProfileContactScreen = ({ route } ) => {
   }, [item.phone])
 
   const onMail = useCallback(async () => {
-    console.log(item.email);
     if(item.email.length > 0)
       await Linking.openURL(`mailto:${item?.email[0]}`);
     else showToast('No email');
@@ -204,7 +196,7 @@ export const ProfileContactScreen = ({ route } ) => {
               sourceRight='Sửa'
               type="profile"/>
 
-      <Section1>
+      <Overview>
         <ViewAvatar>
           <ImgAvt source={item?.avt || MASK_AVT} />
         </ViewAvatar>
@@ -217,48 +209,45 @@ export const ProfileContactScreen = ({ route } ) => {
             data={item.phone}
             onPress={onCall}
             text={'Nhấn gọi điện'}
-            srcActive={IC_btnCALL}
-            srcInactive={ICON_UnPhone}/>
+            src={ICON_UnPhone}/>
           <ActivityInProfile type={'mess'}
             data={item.phone}
             onPress={onMess}
             text={'Nhắn tin'}
-            srcActive={IC_btnMESS}
-            srcInactive={ICON_UnSms}/>
+            src={ICON_UnSms}/>
           <ActivityInProfile type={'video'}
             data={item.phone}
             onPress={onVideo}
             text={'Facetime'}
-            srcActive={IC_btnFACETIME}
-            srcInactive={ICON_UnVideo}/>
+            src={ICON_UnVideo}/>
           <ActivityInProfile type={'email'}
             data={item.email}
             onPress={onMail}
             text={'Gửi mail'}
-            srcActive={ICON_InMail}
-            srcInactive={IC_btnMAIL}/>
+            src={IC_btnMAIL}/>
         </ViewAct>
-      </Section1>
+      </Overview>
 
       <KeyboardAwareScrollView>
-        <Section2>
+        <View>
           <InfoContact type={"phone"} title={"Điện thoại"} data={item?.phone} />
           <InfoContact type={"email"} title={"Email"} data={item?.email} />
           <InfoContact type={"addr"} title={"Địa chỉ"} data={item?.addr} />
-        </Section2>
+        </View>
 
-        <Section3>
+        <View>
           <ViewNote>
             <TextNote>Ghi chú</TextNote>
             <EditNote onChangeText={setTextNote}>{item?.note}</EditNote>
           </ViewNote>
+
           <ViewChoose onPress={onMess}>
             <ChatText>Gửi tin nhắn</ChatText>
           </ViewChoose>
           <ViewChoose onPress={onRemoveContact}>
             <DeleteText>Xóa người gọi</DeleteText>
           </ViewChoose>
-        </Section3>
+        </View>
       </KeyboardAwareScrollView>
 
       <Toast/>

@@ -9,7 +9,7 @@ import { useContact } from "../store/reducer";
 const Container = styled.TouchableOpacity`
   width: 100%;
   height: 64px;
-  padding: 0px 16px;
+  padding-left: 16px;
 `;
 
 const Body = styled.View`

@@ -38,7 +38,7 @@ export const HistoryScreen = () => {
   const navigation = useNavigation();
 
   const onPressRight = useCallback(() => {
-    navigation.navigate('AddContact', {screen: 'add new contact'})
+    navigation.navigate('AddContact')
   }, [])
 
   return (
