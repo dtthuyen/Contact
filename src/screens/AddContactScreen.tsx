@@ -80,7 +80,7 @@ const EditInfo = styled.View`
 const InputInfo = styled.TextInput`
   width: 100%;
   font-size: 15px;
-  color: #333333;
+  color: ${Colors.gray1};
 `;
 
 
@@ -110,7 +110,7 @@ const IconAdd = styled.Image`
 
 const TextAdd = styled.Text`
   font-size: 15px;
-  color: #333333;
+  color: ${Colors.gray1};
   margin-left: 16px;
 `;
 

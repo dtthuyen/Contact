@@ -5,20 +5,21 @@ import { Header } from "../components/Header";
 import ContactForm from "../components/ContactForm";
 import { ICON_CAMERA, ICON_MENU, ICON_SEARCH } from "../assets";
 import { AlphabetList, DEFAULT_CHAR_INDEX } from "react-native-section-alphabet-list";
-import { useNavigation } from "@react-navigation/native";
 import { useContactsByKeyValue } from "../store";
 import { StyleSheet } from "react-native";
+import { Colors } from "../themes/Colors";
+import { navigateToAddContactScreen, toggleDrawer } from "../utils/navigation";
 
 const Container = styled.View`
   flex: 1;
-  background-color: white;
+  background-color: ${Colors.white};
 `;
 
 const ViewSearch = styled.View`
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 8px;
-  background-color: white;
+  background-color: ${Colors.white};
 `;
 
 const SearchView = styled.View`
@@ -44,7 +45,7 @@ const EditTextSearch = styled.TextInput`
 
 const ListView = styled.View`
   flex: 1;
-  background-color: white;
+  background-color: ${Colors.white};
 `;
 
 const AlphabetView = styled.View`
@@ -56,12 +57,11 @@ const AlphabetView = styled.View`
 `;
 
 const TextSection = styled.Text`
-  color: #333333;
+  color: ${Colors.gray1};
   font-weight: bold;
 `;
 
 export const ContactListScreen = () => {
-  const navigation = useNavigation();
   const [text, setText] = useState("");
 
   const contactsByKeyValue = useContactsByKeyValue();
@@ -85,10 +85,6 @@ export const ContactListScreen = () => {
     return list;
   }, [text, contactsByKeyValue]);
 
-  const onPressRight = useCallback(() => {
-    navigation.navigate("AddContact");
-  }, []);
-
   const renderCustomItem = useCallback((item) => (
     <ContactForm idContact={item.key} />
   ), []);
@@ -103,8 +99,8 @@ export const ContactListScreen = () => {
     <Container>
       <Header
         title={"Liên hệ"}
-        onPressLeft={navigation.toggleDrawer}
-        onPressRight={onPressRight}
+        onPressLeft={toggleDrawer}
+        onPressRight={navigateToAddContactScreen}
         sourceLeft={ICON_MENU}
         sourceRight={ICON_CAMERA}
       />
@@ -133,7 +129,7 @@ export const ContactListScreen = () => {
 
 const style = StyleSheet.create({
   indexLetterStyle: {
-    color: "#F2A54A",
+    color: Colors.backgroundColor,
     fontSize: 13,
     fontWeight: "500",
     textTransform: "uppercase"

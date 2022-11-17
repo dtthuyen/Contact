@@ -3,6 +3,7 @@ import * as React from "react";
 import { useCallback, useMemo } from "react";
 import styled from "styled-components";
 import Modal from 'react-native-modal'
+import { Colors } from "../themes/Colors";
 
 const Container = styled.View`
   flex: 1;
@@ -30,7 +31,7 @@ const TextContent = styled.Text`
 `
 
 const TextCancel = styled.Text`
-  color: #F2A54A;
+  color: ${Colors.backgroundColor};
   font-size: 15px;
   text-align: right;
   line-height: 30px;

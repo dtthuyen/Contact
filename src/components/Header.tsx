@@ -3,6 +3,7 @@ import { memo, useMemo } from "react";
 import styled from "styled-components";
 import { TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Colors } from "../themes/Colors";
 
 const Container = styled.View`
   padding: 26px 16px 6px 16px;
@@ -45,12 +46,12 @@ const IconCamera = styled.Image`
 `;
 
 const TextValid = styled.Text`
-  color: #F2A54A;
+  color: ${Colors.backgroundColor};
   font-size: 18px;
 `
 
 const TextInvalid = styled(TextValid)`
-  color: #828282;
+  color: ${Colors.gray2};
 `
 
 interface Props {

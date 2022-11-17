@@ -5,13 +5,14 @@ import { IC_ADD_NEW, IC_MORE, IMG_avtAdmin } from "../assets";
 import styled from "styled-components";
 import { ItemSideBar } from "./ItemSideBar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Colors } from "../themes/Colors";
 
 const Container = styled.View`
   flex: 1;
 `;
 
 const InfoView = styled.View`
-  background-color: #F2A54A;
+  background-color: ${Colors.backgroundColor};
   //height: 85px;
   flex-direction: row;
   padding: 23px 12px 13px 12px;
@@ -62,12 +63,12 @@ const Icon = styled.Image`
 
 const TextItem = styled.Text`
   font-size: 15px;
-  color: #333333;
+  color: ${Colors.gray1};
   margin-left: 20px;
 `;
 
 const TextCollection = styled(TextItem)`
-  color: #333333;
+  color: ${Colors.gray1};
   margin-left: 20px;
   font-size: 13px;
   font-weight: 700;
@@ -97,7 +98,7 @@ const View = styled.TouchableOpacity`
 
 const EditText = styled.Text`
   font-size: 13px;
-  color: #F2A54A;
+  color: ${Colors.backgroundColor};
   align-self: flex-end;
   font-weight: 500;
 `;

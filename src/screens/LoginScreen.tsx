@@ -1,12 +1,13 @@
 import * as React from "react";
-import { useCallback } from "react";
 import styled from 'styled-components/native';
 
 import {ICON_LOGO, IMG_BANNER_LOGO, SMALL_CIRCLE} from '../assets'
+import { Colors } from "../themes/Colors";
+import { navigateToHomeScreen } from "../utils/navigation";
 
 const Container = styled.View`
   flex: 1;
-  background-color: white;
+  background-color: ${Colors.white};
 `;
 
 const SectionImage = styled.View`
@@ -41,7 +42,7 @@ const SectionInfo = styled.View`
 `;
 
 const Text_Title = styled.Text`
- color: #F2A54A;
+  color: ${Colors.backgroundColor};
   margin-top: 20px;
   font-size: 30px;
   font-weight: bold;
@@ -61,7 +62,7 @@ const SmallCircle = styled.Image`
 
 const TextNotLogin = styled.Text`
   font-size: 15px;
-  color: #828282;
+  color: ${Colors.gray2};
   font-style: italic;
 `;
 
@@ -74,13 +75,13 @@ const View = styled.View`
   width: 100%;
   padding-left: 37px;
   padding-right: 37px;
-  background-color: white;
+  background-color: ${Colors.white};
 `;
 
 const BtnLogin = styled.TouchableOpacity`
   width: 100%;
   height: 48px;
-  background: #F2A54A;
+  background: ${Colors.backgroundColor};
   border-radius: 4px;
   align-items: center;
   justify-content: center;
@@ -89,25 +90,21 @@ const BtnLogin = styled.TouchableOpacity`
 const TextLogin = styled.Text`
   font-size: 15px;
   text-transform: uppercase;
-  color: white;
+  color: ${Colors.white};
 `;
 
 const BtnLoginManual = styled(BtnLogin)`
   margin-top: 12px;
   border-width: 1px;
-  border-color: #F2A54A;
-  background: white;
+  border-color: ${Colors.backgroundColor};
+  background: ${Colors.white};
 `;
 
 const TextLoginManual = styled(TextLogin)`
-  color: #F2A54A;
+  color: ${Colors.backgroundColor};
 `;
 
-const LoginScreen = ({ navigation }) => {
-  const onPress = useCallback(() => {
-    navigation.navigate('Home')
-  }, [])
-
+const LoginScreen = () => {
   return (
     <Container>
       <SectionImage>
@@ -126,7 +123,7 @@ const LoginScreen = ({ navigation }) => {
 
       <SectionLogin>
         <View>
-          <BtnLogin onPress={onPress} >
+          <BtnLogin onPress={navigateToHomeScreen} >
             <TextLogin>Đăng nhập bằng base account</TextLogin>
           </BtnLogin>
 

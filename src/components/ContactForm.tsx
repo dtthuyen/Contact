@@ -56,7 +56,7 @@ const TextName = styled.Text`
 const TextPhone = styled.Text`
   margin-top: 4px;
   font-size: 14px;
-  color: #828282;
+  color: ${Colors.gray2};
   letter-spacing: 0.12px;
   font-weight: 400;
   line-height: 16px;

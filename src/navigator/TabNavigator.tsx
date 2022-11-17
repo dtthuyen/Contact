@@ -8,6 +8,7 @@ import styled from "styled-components/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
 import { useCallback, useMemo } from "react";
+import { Colors } from "../themes/Colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -27,7 +28,7 @@ const TabNavigator = () => {
         tabBarInactiveTintColor: '#FFDAAE',
         tabBarActiveTintColor: 'white',
         tabBarStyle: {
-          backgroundColor: '#F2A54A',
+          backgroundColor: Colors.backgroundColor,
           paddingBottom: insets.bottom,
           height: 84
         },

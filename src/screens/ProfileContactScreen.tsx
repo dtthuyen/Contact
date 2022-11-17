@@ -55,7 +55,7 @@ const Name = styled.Text`
 
 const Job = styled.Text`
   font-size: 13px;
-  color: #828282;
+  color: ${Colors.gray2};
   text-align: center;
 `;
 
@@ -77,7 +77,7 @@ const ViewNote = styled.View`
 `;
 
 const TextNote = styled.Text`
-  color: #333333;
+  color: ${Colors.gray1};
   font-size: 13px;
   margin-bottom: 3px;
 `;
@@ -99,12 +99,16 @@ const ViewChoose = styled.TouchableOpacity`
 
 const ChatText = styled.Text`
   font-size: 15px;
-  color: #333333;
+  color: ${Colors.gray1};
 `;
 
 const DeleteText = styled(ChatText)`
   color: #FF4A4A;
 `;
+
+export interface ProfileContactScreenProps {
+  idContact: string
+}
 
 export const ProfileContactScreen = ({ route } ) => {
   const navigation = useNavigation();

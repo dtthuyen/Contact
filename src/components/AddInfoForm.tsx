@@ -26,7 +26,7 @@ const IconAdd = styled.Image`
 
 const TextAdd = styled.Text`
   font-size: 15px;
-  color: #333333;
+  color: ${Colors.gray1};
   margin-left: 16px;
 `;
 

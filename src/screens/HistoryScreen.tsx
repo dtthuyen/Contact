@@ -1,15 +1,15 @@
 import * as React from "react";
-import { useCallback } from "react";
 import styled from "styled-components/native";
 import { Header } from "../components/Header";
 import { ScrollView } from "react-native";
 import HistoryForm from "../components/HistoryForm";
-import { useNavigation } from "@react-navigation/native";
 import { ICON_CAMERA, ICON_MENU } from "../assets";
+import { navigateToAddContactScreen, toggleDrawer } from "../utils/navigation";
+import { Colors } from "../themes/Colors";
 
 const Container = styled.View`
   flex: 1;
-  background-color: white;
+  background-color: ${Colors.white};
 `;
 
 const ListView = styled.View`
@@ -35,20 +35,13 @@ const data = [
 ];
 
 export const HistoryScreen = () => {
-  const navigation = useNavigation();
-
-  const onPressRight = useCallback(() => {
-    navigation.navigate('AddContact')
-  }, [])
-
   return (
     <Container>
       <Header title={"Lịch sử"}
-              onPressLeft={navigation.openDrawer}
-              onPressRight={onPressRight}
+              onPressLeft={toggleDrawer}
+              onPressRight={navigateToAddContactScreen}
               sourceLeft={ICON_MENU}
               sourceRight={ICON_CAMERA}
-        // renderLeftHeader={<DrawerNavigator />}
       />
 
       <ListView>

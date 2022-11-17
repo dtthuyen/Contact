@@ -31,7 +31,7 @@ const TextName = styled.Text`
 const TextPhone = styled.Text`
   margin-top: 8px;
   font-size: 14px;
-  color: #828282;
+  color: ${Colors.gray2};
   letter-spacing: 0.12px;
 `;
 
@@ -54,7 +54,7 @@ const View = styled.View`
 `
 
 const TimePhone = styled.Text`
-  color: #828282;
+  color: ${Colors.gray2};
   font-size: 13px;
   text-align: right;
   margin-right: 29px;

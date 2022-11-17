@@ -22,7 +22,7 @@ const TouchText = styled.TouchableOpacity`
 
 const Text = styled.Text`
   font-size: 13px;
-  color: #333333;
+  color: ${Colors.gray1};
   letter-spacing: -0.41px;
   line-height: 22px;
 `
