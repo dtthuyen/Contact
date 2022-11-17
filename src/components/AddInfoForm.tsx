@@ -45,10 +45,10 @@ interface Props {
   hintText: string;
   text: string;
   setInfo: (type: string, data: Array<string>) => void;
-  setChange: () => void;
+  setIsChange: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const AddInfoForm = (({ type, dataList, hintText, text, setInfo, setChange }: Props) => {
+export const AddInfoForm = (({ type, dataList, hintText, text, setInfo, setIsChange }: Props) => {
   const [list, setList] = useState<Array<{ id: string, data: any }>>([]);
 
   useEffect(() => {
@@ -65,15 +65,15 @@ export const AddInfoForm = (({ type, dataList, hintText, text, setInfo, setChang
 
   useEffect(() => {
     if (list.length) {
-      const newItems = list.map(item => item.data);
+      const newItems = list.map(item => item.data.trim());
       setInfo(type, newItems.filter(Boolean));
-    } else
+    } else {
       setInfo(type, []);
+    }
   }, [list]);
 
   const onChangeText = useCallback(
     (text: string, id: string) => {
-      setChange();
       setList(prevItems =>
         prevItems.map(item => {
           if (item.id === id) {

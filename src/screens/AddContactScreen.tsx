@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useListId } from "../store/reducer";
 import { Header } from "../components/Header";
 import { SyncDataContacts } from "../store";
+import _ from 'lodash'
 
 const Container = styled.View`
   flex: 1;
@@ -139,9 +140,7 @@ export const AddContactScreen = ({ route }) => {
   const navigation = useNavigation();
   const [isChange, setIsChange] = useState<boolean>(false);
 
-  const setChange = useCallback(() => {
-    setIsChange(true);
-  }, []);
+  console.log(isChange);
 
   const props = route.params;
   const { _contact, idContact } = props || {};
@@ -209,7 +208,6 @@ export const AddContactScreen = ({ route }) => {
       [type]: data
     };
     setItem(newItem);
-    setChange();
   }, [item]);
 
   const ChangeAvt = useMemo(() => {
@@ -233,7 +231,6 @@ export const AddContactScreen = ({ route }) => {
   const onConfirm = (date: any) => {
     setOpenPicker(false);
     setDateString(moment(date).format("DD/MM/YYYY"));
-    setChange();
   };
 
   const onCancelDate = useCallback(() => {
@@ -243,13 +240,11 @@ export const AddContactScreen = ({ route }) => {
   const onAddDate = useCallback(() => {
     setBirthday("");
     setOpenDatePicker();
-    setChange();
   }, []);
 
   const onDelDate = useCallback(() => {
     setDateString("");
     setBirthday();
-    setChange();
   }, []);
 
   const setOpenDatePicker = useCallback(() => {
@@ -291,6 +286,25 @@ export const AddContactScreen = ({ route }) => {
     }
   }, [item, listId, pathAvt, getBirthday]);
 
+  const changeData = useCallback((type) => {
+    return !_.isEqual(item[type], _contact[type])
+  }, [item, _contact])
+
+  useEffect(() => {
+    if(_contact) {
+      if(pathAvt !== _contact.avt || getBirthday !== _contact.birthday
+        || item.firstname !== _contact.firstname || item.lastname !== _contact.lastname
+        || item.company !== _contact.company || changeData('phone')
+        || changeData('email') || changeData('addr')) setIsChange(true)
+      else setIsChange(false)
+    } else {
+      if(item.phone.length || item.email.length
+        || item.addr.length || item.firstname.length
+        || item.lastname.length || item.company.length
+        || getBirthday.length) setIsChange(true)
+      else setIsChange(false)
+    }
+  },[item, _contact, getBirthday, pathAvt])
 
   return (
     <Container>
@@ -337,21 +351,21 @@ export const AddContactScreen = ({ route }) => {
             hintText={"số điện thoại"}
             dataList={_contact?.phone}
             setInfo={onChange}
-            setChange={setChange} />
+            setIsChange={setIsChange}/>
           <AddInfoForm
             type={"email"}
             text={"thêm email"}
             hintText={"email"}
             dataList={_contact?.email}
             setInfo={onChange}
-            setChange={setChange} />
+            setIsChange={setIsChange}/>
           <AddInfoForm
             type={"addr"}
             text={"thêm địa chỉ"}
             hintText={"địa chỉ"}
             dataList={_contact?.addr}
             setInfo={onChange}
-            setChange={setChange} />
+            setIsChange={setIsChange}/>
 
           <ViewPickDate>
             {typeof birthday === "string" ?
