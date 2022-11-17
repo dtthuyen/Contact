@@ -138,9 +138,7 @@ const TextDate = styled.Text<{ isNull: boolean }>`
 
 export const AddContactScreen = ({ route }) => {
   const navigation = useNavigation();
-  const [isChange, setIsChange] = useState<boolean>(false);
-
-  console.log(isChange);
+  const [isChange, setIsChange] = useState<boolean>(false); //thong tin co thay doi hay khong
 
   const props = route.params;
   const { _contact, idContact } = props || {};
@@ -272,7 +270,7 @@ export const AddContactScreen = ({ route }) => {
     if (item) {
       const newItem = {
         ...item,
-        value: item.firstname.trim() + " " + item.lastname.trim(),
+        value: item.firstname.trim().concat(" ", item.lastname.trim()).trim(),
         avt: pathAvt,
         birthday: getBirthday
       };

@@ -3,10 +3,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components/native";
 import {
   IC_BACK,
-  IC_btnCALL,
-  IC_btnFACETIME,
   IC_btnMAIL,
-  IC_btnMESS, ICON_InMail, ICON_UnPhone, ICON_UnSms, ICON_UnVideo,
+  ICON_UnPhone, ICON_UnSms, ICON_UnVideo,
   MASK_AVT
 } from "../assets";
 import { Alert, Linking, View } from "react-native";
@@ -157,35 +155,20 @@ export const ProfileContactScreen = ({ route } ) => {
 
   const pressLeft = useCallback(() => navigation.navigate('Home'), [])
 
-  const showToast = useCallback((title) => {
-    Toast.show({
-      type: 'error',
-      text1: title
-    });
-  },[])
-
-  const onCall = useCallback(async () => {
-    if(item.phone.length > 0)
-      await Linking.openURL(`tel:${item?.phone[0]}`);
-    else showToast('No phone number');
+  const onCall = useCallback(async (text) => {
+    await Linking.openURL(`tel:${text}`);
   }, [item.phone])
 
-  const onMess = useCallback(async () => {
-    if(item.phone.length > 0)
-      await Linking.openURL(`sms:${item?.phone[0]}`);
-    else showToast('No phone number');
+  const onMess = useCallback(async (text) => {
+    await Linking.openURL(`sms:${text}`);
   }, [item.phone])
 
-  const onVideo = useCallback(async () => {
-    if(item.phone.length > 0)
-      await Linking.openURL(`tel:${item?.phone[0]}`);
-    else showToast('No phone number');
+  const onVideo = useCallback(async (text) => {
+    await Linking.openURL(`tel:${text}`);
   }, [item.phone])
 
-  const onMail = useCallback(async () => {
-    if(item.email.length > 0)
-      await Linking.openURL(`mailto:${item?.email[0]}`);
-    else showToast('No email');
+  const onMail = useCallback(async (text) => {
+    await Linking.openURL(`mailto:${text}`);
   }, [item.email])
 
   return (

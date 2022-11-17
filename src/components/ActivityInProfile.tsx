@@ -1,6 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { ModalProfile } from "./ModalProfile";
+import Toast from "react-native-toast-message";
 
 const View = styled.View`
   flex-direction: column;
@@ -32,12 +34,30 @@ const Icon = styled.Image<{isActive: boolean }>`
 interface props {
   type: string
   data: Array<string>;
-  onPress: () => void;
+  onPress: (text: string) => void;
   text: string;
   src: string
 }
 
 export const ActivityInProfile = ({ type, data, onPress, src, text } : props) => {
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const showToast = useCallback((title) => {
+    Toast.show({
+      type: 'error',
+      text1: title
+    });
+  },[])
+
+  const openModal = useCallback(() => {
+    if(data.length > 1) setModalVisible(true)
+    else if(data.length == 1) onPress(data[0])
+    else {
+      if(type === 'email') showToast('No email')
+      else showToast('No phone number')
+    }
+  }, [data, type])
+
   const StyleIcon = useMemo(() => {
     if(type === 'call') return {
       width: 18,
@@ -62,11 +82,19 @@ export const ActivityInProfile = ({ type, data, onPress, src, text } : props) =>
   },[data])
 
   return (
-    <View>
-      <Circle isActive={isActive} onPress={onPress}>
-        <Icon isActive={isActive} style={StyleIcon} source={src} />
-      </Circle>
-      <Text isActive={isActive}>{text}</Text>
-    </View>
+  <View>
+    <ModalProfile
+      type={type}
+      data={data}
+      onPress={onPress}
+      setModalVisible={setModalVisible}
+      modalVisible={modalVisible}/>
+
+    <Circle isActive={isActive} onPress={openModal}>
+      <Icon isActive={isActive} style={StyleIcon} source={src} />
+    </Circle>
+    <Text isActive={isActive}>{text}</Text>
+  </View>
+
   )
 }
