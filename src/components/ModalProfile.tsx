@@ -1,22 +1,26 @@
-import { Modal, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import * as React from "react";
 import { useCallback, useMemo } from "react";
 import styled from "styled-components";
+import Modal from 'react-native-modal'
 
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`
 const ModalView = styled.View`
   justify-content: center;
-  align-self: center;
-  margin-top: 300px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  border-width: 1px;
-  border-color: #F2A54A;
+  background-color: #fffbf6;
+  padding: 25px;
+  width: 80%;
+  border-radius: 8px;
 `
 
 const Title = styled.Text`
   font-weight: 500;
   font-size: 15px;
+  line-height: 35px;
 `
 
 const TextContent = styled.Text`
@@ -29,6 +33,8 @@ const TextCancel = styled.Text`
   color: #F2A54A;
   font-size: 15px;
   text-align: right;
+  line-height: 30px;
+  font-weight: 500;
 `
 
 interface props {
@@ -55,25 +61,25 @@ export const ModalProfile = ({type, data, onPress, setModalVisible, modalVisible
 
   return (
     <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => setModalVisible(!modalVisible)}>
+      isVisible={modalVisible}>
 
-      <ModalView>
-        <Title>{title}</Title>
+      <Container>
+        <ModalView>
+          <Title>{title}</Title>
 
-        {data.map((item, index) =>
-          <TouchableOpacity onPress={() => onChoose(item)}>
-            <TextContent>{item}</TextContent>
+          {data.map((item, index) =>
+            <TouchableOpacity onPress={() => onChoose(item)}>
+              <TextContent>{item}</TextContent>
+            </TouchableOpacity>
+          )}
+
+          <TouchableOpacity onPress={onCancel}>
+            <TextCancel>Cancel</TextCancel>
           </TouchableOpacity>
-        )}
-
-        <TouchableOpacity onPress={onCancel}>
-          <TextCancel>Cancel</TextCancel>
-        </TouchableOpacity>
-      </ModalView>
+        </ModalView>
+      </Container>
 
     </Modal>
+
   )
 }

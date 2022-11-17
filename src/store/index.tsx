@@ -13,7 +13,7 @@ export const useContactsByKeyValue = () => {
   );
 };
 
-export const SyncDataContacts = (
+export const syncDataContacts = (
   contacts: Contact[],
   ids: string[]
 ) => {

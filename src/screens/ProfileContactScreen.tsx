@@ -14,9 +14,10 @@ import { Contact } from "../store/contact";
 import { useContact, useListId } from "../store/reducer";
 import { Header } from "../components/Header";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { removeContact, SyncDataContacts } from "../store";
+import { removeContact, syncDataContacts } from "../store";
 import Toast from "react-native-toast-message";
 import { ActivityInProfile } from "../components/ActivityInProfile";
+import { ModalProfile } from "../components/ModalProfile";
 
 const Container = styled.View`
   flex: 1;
@@ -133,7 +134,7 @@ export const ProfileContactScreen = ({ route } ) => {
 
   const editInfo = useCallback(() => {
     navigation.navigate("AddContact", { _contact: item, idContact })
-  }, [item])
+  }, [item, idContact])
 
   const [textNote, setTextNote] = useState<string>('')
 
@@ -149,7 +150,7 @@ export const ProfileContactScreen = ({ route } ) => {
         ...item,
         note: note
       };
-      SyncDataContacts([newItem], listId);
+      syncDataContacts([newItem], listId);
     }
   }, [note]);
 
@@ -170,6 +171,17 @@ export const ProfileContactScreen = ({ route } ) => {
   const onMail = useCallback(async (text) => {
     await Linking.openURL(`mailto:${text}`);
   }, [item.email])
+
+  const [modalVisible, setModalVisible] = useState(false)
+
+  const toggleModal = useCallback(() => {
+    if(item.phone.length > 1) setModalVisible(!modalVisible)
+    else if(item.phone.length == 1) onMess(item.phone[0])
+    else Toast.show({
+      type: 'error',
+      text1: 'No phone number'
+    });
+  }, [])
 
   return (
     <Container>
@@ -224,9 +236,16 @@ export const ProfileContactScreen = ({ route } ) => {
             <EditNote onChangeText={setTextNote}>{item?.note}</EditNote>
           </ViewNote>
 
-          <ViewChoose onPress={onMess}>
+          <ModalProfile
+            type={'mess'}
+            data={item.phone}
+            onPress={onMess}
+            setModalVisible={setModalVisible}
+            modalVisible={modalVisible}/>
+          <ViewChoose onPress={toggleModal}>
             <ChatText>Gửi tin nhắn</ChatText>
           </ViewChoose>
+
           <ViewChoose onPress={onRemoveContact}>
             <DeleteText>Xóa người gọi</DeleteText>
           </ViewChoose>

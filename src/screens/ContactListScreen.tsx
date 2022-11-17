@@ -58,16 +58,16 @@ const AlphabetView = styled.View`
 const TextSection = styled.Text`
   color: #333333;
   font-weight: bold;
-`
+`;
 
 export const ContactListScreen = () => {
   const navigation = useNavigation();
-  const [text,setText] = useState('')
+  const [text, setText] = useState("");
 
   const contactsByKeyValue = useContactsByKeyValue();
 
   const contacts = useMemo(() => {
-    let list = contactsByKeyValue
+    let list = contactsByKeyValue;
     if (text) {
       // Inserted text is not blank
       // Filter the masterDataSource and update FilteredDataSource
@@ -82,8 +82,8 @@ export const ContactListScreen = () => {
         }
       );
     }
-    return list
-  },[text, contactsByKeyValue])
+    return list;
+  }, [text, contactsByKeyValue]);
 
   const onPressRight = useCallback(() => {
     navigation.navigate("AddContact");
@@ -91,13 +91,13 @@ export const ContactListScreen = () => {
 
   const renderCustomItem = useCallback((item) => (
     <ContactForm idContact={item.key} />
-  ), [])
+  ), []);
 
   const renderCustomSectionHeader = useCallback((section) => (
     <AlphabetView>
-      <TextSection >{section.title}</TextSection>
+      <TextSection>{section.title}</TextSection>
     </AlphabetView>
-  ), [])
+  ), []);
 
   return (
     <Container>
@@ -116,21 +116,17 @@ export const ContactListScreen = () => {
         </SearchView>
       </ViewSearch>
 
-      {/*<KeyboardAwareScrollView>*/}
-        <ListView>
-          <AlphabetList
-            data={contacts}
-            index={DEFAULT_CHAR_INDEX}
-            indexLetterStyle={style.indexLetterStyle}
-            indexLetterContainerStyle={style.indexLetterContainerStyle}
-            indexContainerStyle={style.indexContainerStyle}
-            renderCustomItem={(item) =>  renderCustomItem(item)}
-            renderCustomSectionHeader={(section) => renderCustomSectionHeader(section)}
-          />
-        </ListView>
-      {/*</KeyboardAwareScrollView>*/}
-
-
+      <ListView>
+        <AlphabetList
+          data={contacts}
+          index={DEFAULT_CHAR_INDEX}
+          indexLetterStyle={style.indexLetterStyle}
+          indexLetterContainerStyle={style.indexLetterContainerStyle}
+          indexContainerStyle={style.indexContainerStyle}
+          renderCustomItem={(item) => renderCustomItem(item)}
+          renderCustomSectionHeader={(section) => renderCustomSectionHeader(section)}
+        />
+      </ListView>
     </Container>
   );
 };
@@ -143,7 +139,7 @@ const style = StyleSheet.create({
     textTransform: "uppercase"
   },
   indexLetterContainerStyle: {
-  marginBottom: 10
+    marginBottom: 10
   },
   indexContainerStyle: {
     margin: 7,
@@ -151,4 +147,4 @@ const style = StyleSheet.create({
     alignItems: "center",
     position: "absolute"
   }
-})
+});

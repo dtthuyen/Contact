@@ -13,8 +13,8 @@ import { Contact } from "../store/contact";
 import { useNavigation } from "@react-navigation/native";
 import { useListId } from "../store/reducer";
 import { Header } from "../components/Header";
-import { SyncDataContacts } from "../store";
-import _ from 'lodash'
+import { syncDataContacts } from "../store";
+import _ from "lodash";
 
 const Container = styled.View`
   flex: 1;
@@ -77,17 +77,12 @@ const EditInfo = styled.View`
   padding-bottom: 11px;
 `;
 
-const EditFirstName = styled.TextInput`
+const InputInfo = styled.TextInput`
   width: 100%;
   font-size: 15px;
   color: #333333;
 `;
 
-const EditLastName = styled(EditFirstName)`
-`;
-
-const EditCompany = styled(EditFirstName)`
-`;
 
 const MoreInfo = styled.View`
   flex: 2.5;
@@ -264,7 +259,8 @@ export const AddContactScreen = ({ route }) => {
       <TouchDate onPress={setOpenDatePicker}>
         <TextDate isNull={hasBirthday}>{hasBirthday ? getBirthday : "ngày sinh"}</TextDate>
       </TouchDate>
-    )}, [getBirthday]);
+    );
+  }, [getBirthday]);
 
   const onHandleAddContact = useCallback(() => {
     if (item) {
@@ -277,32 +273,32 @@ export const AddContactScreen = ({ route }) => {
       console.log(">>>>>Add/Edit Contact: ", newItem);
 
       // co it nhat ten/sdt/email moi luu
-      if(newItem.phone.length > 0 || newItem.email.length > 0 || newItem.value.trim().length > 0) {
-        SyncDataContacts([newItem], listId);
+      if (newItem.phone.length > 0 || newItem.email.length > 0 || newItem.value.trim().length > 0) {
+        syncDataContacts([newItem], listId);
         navigation.navigate("ProfileContact", { idContact: newItem.id });
       } else navigation.navigate("Contacts");
     }
   }, [item, listId, pathAvt, getBirthday]);
 
   const changeData = useCallback((type) => {
-    return !_.isEqual(item[type], _contact[type])
-  }, [item, _contact])
+    return !_.isEqual(item[type], _contact[type]);
+  }, [item, _contact]);
 
   useEffect(() => {
-    if(_contact) {
-      if(pathAvt !== _contact.avt || getBirthday !== _contact.birthday
+    if (_contact) {
+      if (pathAvt !== _contact.avt || getBirthday !== _contact.birthday
         || item.firstname !== _contact.firstname || item.lastname !== _contact.lastname
-        || item.company !== _contact.company || changeData('phone')
-        || changeData('email') || changeData('addr')) setIsChange(true)
-      else setIsChange(false)
+        || item.company !== _contact.company || changeData("phone")
+        || changeData("email") || changeData("addr")) setIsChange(true);
+      else setIsChange(false);
     } else {
-      if(item.phone.length || item.email.length
+      if (item.phone.length || item.email.length
         || item.addr.length || item.firstname.length
         || item.lastname.length || item.company.length
-        || getBirthday.length) setIsChange(true)
-      else setIsChange(false)
+        || getBirthday.length) setIsChange(true);
+      else setIsChange(false);
     }
-  },[item, _contact, getBirthday, pathAvt])
+  }, [item, _contact, getBirthday, pathAvt]);
 
   return (
     <Container>
@@ -326,19 +322,22 @@ export const AddContactScreen = ({ route }) => {
 
         <EditInfoView>
           <EditInfo>
-            <EditFirstName placeholder="Họ"
-                           onChangeText={text => onChange("firstname", text)}
-            >{item.firstname}</EditFirstName>
+            <InputInfo placeholder="Họ"
+                       value={item.firstname}
+                       onChangeText={text => onChange("firstname", text)}
+            />
           </EditInfo>
           <EditInfo>
-            <EditLastName placeholder="Tên"
-                          onChangeText={text => onChange("lastname", text)}
-            >{item.lastname}</EditLastName>
+            <InputInfo placeholder="Tên"
+                       value={item.lastname}
+                       onChangeText={text => onChange("lastname", text)}
+            />
           </EditInfo>
           <EditInfo>
-            <EditCompany placeholder="Công ty"
-                         onChangeText={text => onChange("company", text)}
-            >{item.company}</EditCompany>
+            <InputInfo placeholder="Công ty"
+                       onChangeText={text => onChange("company", text)}
+                       value={item.company}
+            />
           </EditInfo>
         </EditInfoView>
 
@@ -347,23 +346,23 @@ export const AddContactScreen = ({ route }) => {
             type={"phone"}
             text={"thêm số điện thoại"}
             hintText={"số điện thoại"}
-            dataList={_contact?.phone}
+            dataList={_contact?.phone || []}
             setInfo={onChange}
-            setIsChange={setIsChange}/>
+            setIsChange={setIsChange} />
           <AddInfoForm
             type={"email"}
             text={"thêm email"}
             hintText={"email"}
-            dataList={_contact?.email}
+            dataList={_contact?.email || []}
             setInfo={onChange}
-            setIsChange={setIsChange}/>
+            setIsChange={setIsChange} />
           <AddInfoForm
             type={"addr"}
             text={"thêm địa chỉ"}
             hintText={"địa chỉ"}
-            dataList={_contact?.addr}
+            dataList={_contact?.addr || []}
             setInfo={onChange}
-            setIsChange={setIsChange}/>
+            setIsChange={setIsChange} />
 
           <ViewPickDate>
             {typeof birthday === "string" ?

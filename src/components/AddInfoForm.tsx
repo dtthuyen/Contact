@@ -40,7 +40,7 @@ const TextContent = styled.TextInput`
 `;
 
 interface Props {
-  type: string;
+  type: 'phone' | 'email' | 'addr';
   dataList?: Array<string>;
   hintText: string;
   text: string;
