@@ -5,6 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { launchImageLibrary } from "react-native-image-picker";
 import { Alert, TouchableOpacity } from "react-native";
 import DatePicker from "react-native-date-picker";
+// @ts-ignore
 import moment from "moment";
 
 import { IC_CAMERA_ADD_AVT, ICON_ADD, ICON_DEL, MASK_AVT } from "../../assets";
@@ -236,7 +237,7 @@ export const AddContactScreen = () => {
 
   const onDelDate = useCallback(() => {
     setDateString("");
-    setBirthday();
+    setBirthday(undefined);
   }, []);
 
   const setOpenDatePicker = useCallback(() => {

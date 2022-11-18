@@ -63,7 +63,7 @@ const DrawerStackComponent = memo(() => {
     <DrawerStack.Navigator
       initialRouteName={'Tabs'}
       screenOptions={{ headerShown: false }}
-      drawerContent={(props) => <CustomSidebarMenu {...props} /> }
+      drawerContent={() => <CustomSidebarMenu/> }
     >
       <DrawerStack.Screen name="Tabs" component={TabNavigator} />
     </DrawerStack.Navigator>

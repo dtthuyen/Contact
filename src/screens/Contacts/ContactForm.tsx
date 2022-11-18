@@ -70,7 +70,6 @@ interface Props {
 
 const ContactForm = ({idContact} : Props) => {
   const onPress = useCallback(() => {
-    // navigation.navigate('ProfileContact', {idContact})
     navigateToProfileContactScreen({idContact})
   } ,[])
 
