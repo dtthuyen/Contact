@@ -1,7 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components'
-import {ICON_CALL, ICON_INFO_CALL} from '../assets/index'
+import {ICON_CALL, ICON_INFO_CALL} from '../../assets'
 import { TouchableOpacity } from "react-native";
+import { Colors } from "../../themes/Colors";
 
 const Container = styled.View`
   width: 100%;
@@ -50,7 +51,7 @@ const View = styled.View`
   align-items: center;
   padding-right: 20px;
   border-bottom-width: 0.5px;
-  border-bottom-color: rgba(0, 0, 0, 0.1);
+  border-bottom-color: ${Colors.grayBorder1};
 `
 
 const TimePhone = styled.Text`

@@ -4,11 +4,12 @@ import styled from "styled-components";
 import { TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Colors } from "../themes/Colors";
+import { BaseStyles } from "../themes/BaseStyles";
 
 const Container = styled.View`
   padding: 26px 16px 6px 16px;
   width: 100%;
-  background-color: ${p => p.typep === 'profile' ? '#fffbf6' : '#fff'}
+  background-color: ${p => p.type === 'profile' ? Colors.orange1 : Colors.white}
 `;
 
 const Head = styled.View`
@@ -31,7 +32,7 @@ const BtnLeft2 = styled.Image`
 
 const TextTitle = styled.Text`
   font-size: 24px;
-  color: black;
+  color: ${Colors.black};
   font-weight: 500;
 `;
 
@@ -66,18 +67,10 @@ interface Props {
 }
 
 export const Header = memo(({ title, sourceLeft, sourceRight,onPressLeft, onPressRight, type, renderLeftHeader, isChange}: Props) => {
-
-  const insets = useSafeAreaInsets();
-
-  const headerStyle = useMemo(() => {
-    return  {
-      paddingTop:insets.top
-    }
-  }, [insets.top]);
+  const {paddingTopInsets} = BaseStyles();
 
   return (
-    <Container style={headerStyle} typep={type}>
-
+    <Container style={paddingTopInsets} type={type}>
       <Head>
         {renderLeftHeader ? renderLeftHeader : (
           <TouchableOpacity onPress={onPressLeft}>

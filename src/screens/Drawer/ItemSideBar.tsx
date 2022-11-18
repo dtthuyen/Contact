@@ -1,7 +1,8 @@
-import { IC_OPTION, ICON_DEL } from "../assets";
+import { IC_OPTION, ICON_DEL } from "../../assets";
 import * as React from "react";
 import styled from "styled-components";
 import { useCallback, useState } from "react";
+import { Colors } from "../../themes/Colors";
 
 const ItemView = styled.TouchableOpacity`
   height: 44px;

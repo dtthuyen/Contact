@@ -6,18 +6,21 @@ import {
   IC_btnMAIL,
   ICON_UnPhone, ICON_UnSms, ICON_UnVideo,
   MASK_AVT
-} from "../assets";
+} from "../../assets";
 import { Alert, Linking, View } from "react-native";
-import { InfoContact } from "../components/InfoContact";
+import { InfoContact } from "./components/InfoContact";
 import { useNavigation } from "@react-navigation/native";
-import { Contact } from "../store/contact";
-import { useContact, useListId } from "../store/reducer";
-import { Header } from "../components/Header";
+import { Contact } from "../../utils/contact";
+import { useContact, useListId } from "../../store";
+import { Header } from "../../components/Header";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { removeContact, syncDataContacts } from "../store";
+import { removeContact, syncDataContacts } from "../../store";
 import Toast from "react-native-toast-message";
-import { ActivityInProfile } from "../components/ActivityInProfile";
-import { ModalProfile } from "../components/ModalProfile";
+import { ActivityInProfile } from "./components/ActivityInProfile";
+import { ModalProfile } from "./components/ModalProfile";
+import { navigateToAddContactScreen, navigateToHomeScreen } from "../../utils/navigation";
+import { Colors } from "../../themes/Colors";
+import { useNavigationParams } from "../../hooks/useNavigationParams";
 
 const Container = styled.View`
   flex: 1;
@@ -85,14 +88,14 @@ const TextNote = styled.Text`
 const EditNote = styled.TextInput`
   font-size: 15px;
   width: 100%;
-  color: #2F80ED;
+  color: ${Colors.blue};
 `;
 
 const ViewChoose = styled.TouchableOpacity`
   margin: 8px 16px;
   height: 34px;
   border-bottom-width: 0.5px;
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: ${Colors.grayBorder1};
   padding-bottom: 10px;
   justify-content: center;
 `;
@@ -103,16 +106,15 @@ const ChatText = styled.Text`
 `;
 
 const DeleteText = styled(ChatText)`
-  color: #FF4A4A;
+  color: ${Colors.red1};
 `;
 
 export interface ProfileContactScreenProps {
   idContact: string
 }
 
-export const ProfileContactScreen = ({ route } ) => {
-  const navigation = useNavigation();
-  const { idContact } = route.params;
+export const ProfileContactScreen = () => {
+  const { idContact } = useNavigationParams<ProfileContactScreenProps>();
 
   const listId = useListId("all")
 
@@ -126,7 +128,7 @@ export const ProfileContactScreen = ({ route } ) => {
         text: "OK",
         onPress: () => {
           removeContact(idContact)
-          navigation.navigate("Home");
+          navigateToHomeScreen();
         }
       }
     ]);
@@ -137,7 +139,7 @@ export const ProfileContactScreen = ({ route } ) => {
   console.log('Profile:', item);
 
   const editInfo = useCallback(() => {
-    navigation.navigate("AddContact", { _contact: item, idContact })
+    navigateToAddContactScreen({ _contact: item, idContact })
   }, [item, idContact])
 
   const [textNote, setTextNote] = useState<string>('')
@@ -157,8 +159,6 @@ export const ProfileContactScreen = ({ route } ) => {
       syncDataContacts([newItem], listId);
     }
   }, [note]);
-
-  const pressLeft = useCallback(() => navigation.navigate('Home'), [])
 
   const onCall = useCallback(async (text) => {
     await Linking.openURL(`tel:${text}`);
@@ -189,7 +189,7 @@ export const ProfileContactScreen = ({ route } ) => {
 
   return (
     <Container>
-      <Header onPressLeft={pressLeft}
+      <Header onPressLeft={navigateToHomeScreen}
               onPressRight={editInfo}
               sourceLeft={IC_BACK}
               sourceRight='Sửa'

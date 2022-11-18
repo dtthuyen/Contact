@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useCallback, useMemo, useState } from "react";
 import { ModalProfile } from "./ModalProfile";
 import Toast from "react-native-toast-message";
-import { Colors } from "../themes/Colors";
+import { Colors } from "../../../themes/Colors";
 
 const View = styled.View`
   flex-direction: column;
@@ -15,8 +15,8 @@ const Circle = styled.TouchableOpacity<{isActive: boolean}>`
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  background-color: ${p => p.isActive ? Colors.backgroundColor : 'white' };
-  border-color: #BDBDBD;
+  background-color: ${p => p.isActive ? Colors.backgroundColor : Colors.white };
+  border-color: ${Colors.gray4};
   border-width: ${p => p.isActive ? 0 : 1 }px;
   align-items: center;
   justify-content: center;
@@ -25,11 +25,11 @@ const Circle = styled.TouchableOpacity<{isActive: boolean}>`
 const Text = styled.Text<{isActive: boolean }>`
   margin-top: 4px;
   font-size: 11px;
-  color: ${p => p.isActive ? Colors.backgroundColor : '#BDBDBD'};
+  color: ${p => p.isActive ? Colors.backgroundColor : Colors.gray4};
 `;
 
 const Icon = styled.Image<{isActive: boolean }>`
-  tint-color: ${p => p.isActive ? 'white' : '#DADADA'}
+  tint-color: ${p => p.isActive ? Colors.white : Colors.gray4}
 `;
 
 interface props {

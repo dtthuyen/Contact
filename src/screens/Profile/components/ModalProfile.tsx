@@ -3,7 +3,7 @@ import * as React from "react";
 import { useCallback, useMemo } from "react";
 import styled from "styled-components";
 import Modal from 'react-native-modal'
-import { Colors } from "../themes/Colors";
+import { Colors } from "../../../themes/Colors";
 
 const Container = styled.View`
   flex: 1;
@@ -12,7 +12,7 @@ const Container = styled.View`
 `
 const ModalView = styled.View`
   justify-content: center;
-  background-color: #fffbf6;
+  background-color: ${Colors.orange1};
   padding: 25px;
   width: 80%;
   border-radius: 8px;
@@ -25,7 +25,7 @@ const Title = styled.Text`
 `
 
 const TextContent = styled.Text`
-  color: #2F80ED;
+  color: ${Colors.blue};
   font-size: 15px;
   line-height: 30px;
 `
@@ -69,7 +69,7 @@ export const ModalProfile = ({type, data, onPress, setModalVisible, modalVisible
           <Title>{title}</Title>
 
           {data.map((item, index) =>
-            <TouchableOpacity onPress={() => onChoose(item)}>
+            <TouchableOpacity key={index} onPress={() => onChoose(item)}>
               <TextContent>{item}</TextContent>
             </TouchableOpacity>
           )}

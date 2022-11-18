@@ -1,14 +1,14 @@
 import * as React from "react";
 import { useCallback, useMemo, useState } from "react";
 import styled from "styled-components/native";
-import { Header } from "../components/Header";
-import ContactForm from "../components/ContactForm";
-import { ICON_CAMERA, ICON_MENU, ICON_SEARCH } from "../assets";
+import { Header } from "../../components/Header";
+import ContactForm from "./ContactForm";
+import { ICON_CAMERA, ICON_MENU, ICON_SEARCH } from "../../assets";
 import { AlphabetList, DEFAULT_CHAR_INDEX } from "react-native-section-alphabet-list";
-import { useContactsByKeyValue } from "../store";
+import { useContactsByKeyValue } from "../../store";
 import { StyleSheet } from "react-native";
-import { Colors } from "../themes/Colors";
-import { navigateToAddContactScreen, toggleDrawer } from "../utils/navigation";
+import { Colors } from "../../themes/Colors";
+import { navigateToAddContactScreen, toggleDrawer } from "../../utils/navigation";
 
 const Container = styled.View`
   flex: 1;
@@ -25,7 +25,7 @@ const ViewSearch = styled.View`
 const SearchView = styled.View`
   align-items: center;
   width: 100%;
-  background-color: #f8f8f8;
+  background-color: ${Colors.gray7};
   flex-direction: row;
   border-radius: 6px;
 `;
@@ -94,6 +94,12 @@ export const ContactListScreen = () => {
       <TextSection>{section.title}</TextSection>
     </AlphabetView>
   ), []);
+
+  const onPressRight = useCallback(() => {
+    console.log('XXXXXXXXXXX');
+    navigateToAddContactScreen({})
+
+  }, [])
 
   return (
     <Container>

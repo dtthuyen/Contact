@@ -1,7 +1,7 @@
 import { combineReducers, createStore } from "redux";
 import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { reducer, setContactStore } from "./reducer";
+import { reducer, setContactStore } from "./index";
 
 const appReducer = combineReducers({
   contacts: reducer

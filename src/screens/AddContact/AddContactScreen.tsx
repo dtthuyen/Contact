@@ -7,18 +7,20 @@ import { Alert, TouchableOpacity } from "react-native";
 import DatePicker from "react-native-date-picker";
 import moment from "moment";
 
-import { IC_CAMERA_ADD_AVT, ICON_ADD, ICON_DEL, MASK_AVT } from "../assets";
-import { AddInfoForm } from "../components/AddInfoForm";
-import { Contact } from "../store/contact";
-import { useNavigation } from "@react-navigation/native";
-import { useListId } from "../store/reducer";
-import { Header } from "../components/Header";
-import { syncDataContacts } from "../store";
+import { IC_CAMERA_ADD_AVT, ICON_ADD, ICON_DEL, MASK_AVT } from "../../assets";
+import { AddInfoForm } from "./AddInfoForm";
+import { Contact } from "../../utils/contact";
+import { useListId } from "../../store";
+import { Header } from "../../components/Header";
+import { syncDataContacts } from "../../store";
 import _ from "lodash";
+import { goBack, navigateToContactListScreen, navigateToProfileContactScreen } from "../../utils/navigation";
+import { Colors } from "../../themes/Colors";
+import { useNavigationParams } from "../../hooks/useNavigationParams";
 
 const Container = styled.View`
   flex: 1;
-  background-color: white;
+  background-color: ${Colors.white};
 `;
 
 const ViewAvt = styled.View`
@@ -40,7 +42,7 @@ const CircleAvt = styled.View`
   width: 100px;
   height: 100px;
   border-radius: 50px;
-  background-color: #F2F2F2;
+  background-color: ${Colors.gray6};
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -72,7 +74,7 @@ const EditInfoView = styled.View`
 const EditInfo = styled.View`
   height: 48px;
   border-bottom-width: 0.5px;
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: ${Colors.grayBorder1};
   justify-content: flex-end;
   padding-bottom: 11px;
 `;
@@ -96,7 +98,7 @@ const AddView = styled.View`
   align-items: center;
   flex-direction: row;
   border-bottom-width: 0.5px;
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: ${Colors.grayBorder1};
   margin-bottom: 16px;
 `;
 
@@ -125,18 +127,21 @@ const TouchDate = styled.TouchableOpacity`
 `;
 
 const TextDate = styled.Text<{ isNull: boolean }>`
-  color: ${p => p.isNull ? "#2F80ED" : "#BDBDBD"};
+  color: ${p => p.isNull ? Colors.blue : Colors.gray3};
   font-size: 15px;
   margin-left: 16px;
   width: 100%;
 `;
 
-export const AddContactScreen = ({ route }) => {
-  const navigation = useNavigation();
-  const [isChange, setIsChange] = useState<boolean>(false); //thong tin co thay doi hay khong
+export interface AddContactScreenProps {
+  _contact?: Contact
+  idContact?: string
+}
 
-  const props = route.params;
-  const { _contact, idContact } = props || {};
+export const AddContactScreen = () => {
+  const [isChange, setIsChange] = useState<boolean>(false); //check thong tin co thay doi hay khong
+
+  const { _contact, idContact } = useNavigationParams<AddContactScreenProps>() || {};
 
   const listId = useListId("all");
 
@@ -170,9 +175,7 @@ export const AddContactScreen = ({ route }) => {
       },
       (response) => {
         // console.log("Response = ", response);
-
         if (response.didCancel) {
-          // Alert.alert("User cancelled camera picker");
           return;
         } else if (response.errorCode == "camera_unavailable") {
           Alert.alert("Camera not available on device");
@@ -206,10 +209,6 @@ export const AddContactScreen = ({ route }) => {
   const ChangeAvt = useMemo(() => {
     return <ImgAvt source={pathAvt} />;
   }, [pathAvt]);
-
-  const onCancel = useCallback(() => {
-    navigation.goBack();
-  }, []);
 
   const [openPicker, setOpenPicker] = useState(false);
   const [dateString, setDateString] = useState<string>("");
@@ -260,7 +259,7 @@ export const AddContactScreen = ({ route }) => {
         <TextDate isNull={hasBirthday}>{hasBirthday ? getBirthday : "ngày sinh"}</TextDate>
       </TouchDate>
     );
-  }, [getBirthday]);
+  }, [getBirthday, hasBirthday]);
 
   const onHandleAddContact = useCallback(() => {
     if (item) {
@@ -275,8 +274,9 @@ export const AddContactScreen = ({ route }) => {
       // co it nhat ten/sdt/email moi luu
       if (newItem.phone.length > 0 || newItem.email.length > 0 || newItem.value.trim().length > 0) {
         syncDataContacts([newItem], listId);
-        navigation.navigate("ProfileContact", { idContact: newItem.id });
-      } else navigation.navigate("Contacts");
+        // navigation.navigate("ProfileContact", { idContact: newItem.id });
+        navigateToProfileContactScreen({idContact: newItem.id})
+      } else navigateToContactListScreen();
     }
   }, [item, listId, pathAvt, getBirthday]);
 
@@ -284,26 +284,26 @@ export const AddContactScreen = ({ route }) => {
     return !_.isEqual(item[type], _contact[type]);
   }, [item, _contact]);
 
-  useEffect(() => {
-    if (_contact) {
-      if (pathAvt !== _contact.avt || getBirthday !== _contact.birthday
-        || item.firstname !== _contact.firstname || item.lastname !== _contact.lastname
-        || item.company !== _contact.company || changeData("phone")
-        || changeData("email") || changeData("addr")) setIsChange(true);
-      else setIsChange(false);
-    } else {
-      if (item.phone.length || item.email.length
-        || item.addr.length || item.firstname.length
-        || item.lastname.length || item.company.length
-        || getBirthday.length) setIsChange(true);
-      else setIsChange(false);
-    }
-  }, [item, _contact, getBirthday, pathAvt]);
+  // useEffect(() => {
+  //   if (_contact) {
+  //     if (pathAvt !== _contact.avt || getBirthday !== _contact.birthday
+  //       || item.firstname !== _contact.firstname || item.lastname !== _contact.lastname
+  //       || item.company !== _contact.company || changeData("phone")
+  //       || changeData("email") || changeData("addr")) setIsChange(true);
+  //     else setIsChange(false);
+  //   } else {
+  //     if (item.phone.length || item.email.length
+  //       || item.addr.length || item.firstname.length
+  //       || item.lastname.length || item.company.length
+  //       || getBirthday.length) setIsChange(true);
+  //     else setIsChange(false);
+  //   }
+  // }, [item, _contact, getBirthday, pathAvt]);
 
   return (
     <Container>
       <Header
-        onPressLeft={onCancel}
+        onPressLeft={goBack}
         onPressRight={onHandleAddContact}
         sourceLeft="Hủy"
         sourceRight="Xong"

@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import * as React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ICON_ADD, ICON_DEL } from "../assets";
+import { ICON_ADD, ICON_DEL } from "../../assets";
 import { TouchableOpacity } from "react-native";
+import { Colors } from "../../themes/Colors";
 
 const Container = styled.View`
   margin-top: 24px;
@@ -16,7 +17,7 @@ const AddView = styled.View`
   align-items: center;
   flex-direction: row;
   border-bottom-width: 0.5px;
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: ${Colors.grayBorder1};
 `;
 
 const IconAdd = styled.Image`
@@ -33,7 +34,7 @@ const TextAdd = styled.Text`
 const IconDel = styled(IconAdd)``;
 
 const TextContent = styled.TextInput`
-  color: #2F80ED;
+  color: ${Colors.blue};
   font-size: 15px;
   margin-left: 16px;
   width: 100%;
@@ -52,9 +53,7 @@ export const AddInfoForm = (({ type, dataList, hintText, text, setInfo, setIsCha
   const [list, setList] = useState<Array<{ id: string, data: any }>>([]);
 
   useEffect(() => {
-    if (!dataList || !dataList.length) {
-      setList([]);
-    } else {
+    if (dataList && dataList.length > 0)  {
       const newItems = dataList.map((_item, index) => ({
         id: new Date().getTime().toString() + index.toString() + Math.random(),
         data: _item

@@ -1,37 +1,32 @@
-import { TransitionPresets } from "@react-navigation/stack";
-import * as React from "react";
+import * as React from 'react';
 import {
   NavigationContainerRef,
   StackActions,
+  DrawerActions
 } from '@react-navigation/native';
+
+import { ProfileContactScreenProps } from "../screens/Profile/ProfileContactScreen";
+import { TransitionPresets } from "@react-navigation/stack";
+import { AddContactScreenProps } from "../screens/AddContact/AddContactScreen";
 
 export const defaultScreenOptions = TransitionPresets.SlideFromRightIOS;
 
-export const navigationRef = React.createRef<NavigationContainerRef>()
+export const navigationRef = React.createRef<NavigationContainerRef>();
 
 export const navigation = () => navigationRef.current!;
 
-export const createNavigate = <T extends object>(screenName: string) => (param?: T) => {
-  return navigation().navigate(screenName, param)
-}
-
-export const createPush = <T extends object>(screenName: string) => (params: T) => {
-  return navigation().dispatch(StackActions.replace(screenName, params))
-}
-
-export const createReplace = <T extends object>(screenName: string) => (
-  params?: T,
-) => {
-  return navigation().dispatch(StackActions.replace(screenName, params))
+export const createNavigate = <T extends object>(screen: string) => (params?: T) => {
+  console.log(screen, params);
+  return navigation().navigate(screen, params);
 };
 
-export const goBack = () => navigation().goBack()
+export const goBack = () => navigation().goBack();
 
-export const toggleDrawer = () => navigation().toggleDrawer()
+export const toggleDrawer = () => navigation().dispatch(DrawerActions.toggleDrawer())
 
-export const navigateToAddContactScreen = createNavigate('AddContact')
+export const navigateToAddContactScreen = createNavigate<AddContactScreenProps>('AddContact')
 
-export const navigateToProfileContactScreen = createNavigate('ProfileContact')
+export const navigateToProfileContactScreen = createNavigate<ProfileContactScreenProps>('ProfileContact')
 
 export const navigateToContactListScreen = createNavigate('Contacts')
 

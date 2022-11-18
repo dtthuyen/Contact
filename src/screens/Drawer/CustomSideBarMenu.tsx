@@ -1,11 +1,11 @@
 import * as React from "react";
-import { useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { ScrollView, TouchableOpacity } from "react-native";
-import { IC_ADD_NEW, IC_MORE, IMG_avtAdmin } from "../assets";
+import { IC_ADD_NEW, IC_MORE, IMG_avtAdmin } from "../../assets";
 import styled from "styled-components";
 import { ItemSideBar } from "./ItemSideBar";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Colors } from "../themes/Colors";
+import { Colors } from "../../themes/Colors";
+import { BaseStyles } from "../../themes/BaseStyles";
 
 const Container = styled.View`
   flex: 1;
@@ -31,13 +31,13 @@ const TextView = styled.View`
 
 const TextName = styled.Text`
   font-size: 16px;
-  color: white;
+  color: ${Colors.white};
   font-weight: bold;
 `;
 
 const TextJob = styled.Text`
   margin-top: 5px;
-  color: white;
+  color: ${Colors.white};
   font-size: 12px;
 `;
 
@@ -80,7 +80,7 @@ const IconCollection = styled.Image`
 `;
 
 const CollectionView = styled.View`
-  background-color: rgba(242, 165, 74, 0.1);
+  background-color: ${Colors.orange3};
   justify-content: space-between;
   align-items: center;
   height: 44px;
@@ -108,22 +108,15 @@ const ViewShow = styled.View`
   flex-direction: column;
 `;
 
-const CustomSidebarMenu = () => {
+export const CustomSidebarMenu = memo(() => {
+  const {paddingTopInsets} = BaseStyles();
+
   const [show, setShow] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const onPress = useCallback(() => {
     setShow(!show);
   }, [show]);
-
-  const insets = useSafeAreaInsets();
-
-  const Padding = useMemo(() => {
-    return {
-      paddingTop: insets.top
-    };
-  }, []);
-
-  const [edit, setEdit] = useState(false);
 
   const textEdit = useMemo(() => {
     return edit ? "OK" : "Edit";
@@ -133,15 +126,9 @@ const CustomSidebarMenu = () => {
     setEdit(!edit);
   }, [edit]);
 
-  const [addNew, setAddNew] = useState(false);
-
-  const addCollection = useCallback(() => {
-    setAddNew(true);
-  }, []);
-
   return (
     <Container>
-      <InfoView style={Padding}>
+      <InfoView style={paddingTopInsets}>
         <ImgAvt source={IMG_avtAdmin} />
         <TextView>
           <TextName>Nguyễn Tiến Nam</TextName>
@@ -150,7 +137,7 @@ const CustomSidebarMenu = () => {
       </InfoView>
 
       <ScrollView>
-        <NewView onPress={addCollection}>
+        <NewView>
           <Icon source={IC_ADD_NEW} />
           <TextItem>New Collection</TextItem>
         </NewView>
@@ -177,6 +164,4 @@ const CustomSidebarMenu = () => {
       </ScrollView>
     </Container>
   );
-};
-
-export default CustomSidebarMenu;
+});

@@ -1,9 +1,9 @@
 import * as React from "react";
 import styled from 'styled-components/native';
 
-import {ICON_LOGO, IMG_BANNER_LOGO, SMALL_CIRCLE} from '../assets'
-import { Colors } from "../themes/Colors";
-import { navigateToHomeScreen } from "../utils/navigation";
+import {ICON_LOGO, IMG_BANNER_LOGO, SMALL_CIRCLE} from '../../assets'
+import { Colors } from "../../themes/Colors";
+import { navigateToHomeScreen } from "../../utils/navigation";
 
 const Container = styled.View`
   flex: 1;
@@ -49,7 +49,7 @@ const Text_Title = styled.Text`
 `;
 
 const SubText_Title = styled.Text`
-  color: black;
+  color: ${Colors.black};
   margin-top: 7px;
   font-size: 15px;
   text-align: center;

@@ -1,10 +1,12 @@
 import * as React from "react";
 import { useCallback } from "react";
 import styled from 'styled-components'
-import { MASK_AVT } from "../assets";
+import { MASK_AVT } from "../../assets";
 import { useNavigation } from "@react-navigation/native";
-import { Contact } from "../store/contact";
-import { useContact } from "../store/reducer";
+import { Contact } from "../../utils/contact";
+import { useContact } from "../../store";
+import { Colors } from "../../themes/Colors";
+import { navigateToProfileContactScreen } from "../../utils/navigation";
 
 const Container = styled.TouchableOpacity`
   width: 100%;
@@ -20,7 +22,7 @@ const Body = styled.View`
 `;
 
 const ViewAvatar = styled.View`
-  background-color: #F2F2F2;
+  background-color: ${Colors.gray7};
   width: 40px;
   height: 40px;
   border-radius: 20px;
@@ -43,12 +45,12 @@ const Info = styled.View`
   width: 100%;
   height: 100%;
   border-bottom-width: 0.5px;
-  border-bottom-color: rgba(0, 0, 0, 0.1);
+  border-bottom-color: ${Colors.grayBorder1};
 `;
 
 const TextName = styled.Text`
   font-size: 16px;
-  color: black;
+  color: ${Colors.black};
   font-weight: 500;
   letter-spacing: 0.12px;
 `;
@@ -67,10 +69,9 @@ interface Props {
 }
 
 const ContactForm = ({idContact} : Props) => {
-  const navigation = useNavigation();
-
   const onPress = useCallback(() => {
-    navigation.navigate('ProfileContact', {idContact})
+    // navigation.navigate('ProfileContact', {idContact})
+    navigateToProfileContactScreen({idContact})
   } ,[])
 
   const contact: Contact | undefined = useContact(idContact);

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import * as React from "react";
 import  { useCallback } from "react";
 import { Linking } from "react-native";
+import { Colors } from "../../../themes/Colors";
 
 const Container = styled.View`
   width: 100%;
@@ -10,14 +11,12 @@ const Container = styled.View`
 const View = styled.View`
   width: 100%;
   border-bottom-width: 0.5px;
-  // border-bottom-color: ${p => p.title === 'Địa chỉ' ? 'white' : 'rgba(0, 0, 0, 0.1)'} ;
-  border-bottom-color: rgba(0, 0, 0, 0.1) ;
+  border-bottom-color: ${Colors.grayBorder1} ;
   margin-top: 15px;
   padding-bottom: 8px;
 `
 
 const TouchText = styled.TouchableOpacity`
-  
 `
 
 const Text = styled.Text`
@@ -29,7 +28,7 @@ const Text = styled.Text`
 
 const Content = styled.Text`
   font-size: 17px;
-  color: #2F80ED;
+  color: ${Colors.blue};
   line-height: 22px;
   margin-top: 5px;
 `
