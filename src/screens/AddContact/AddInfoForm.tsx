@@ -46,10 +46,9 @@ interface Props {
   hintText: string;
   text: string;
   setInfo: (type: string, data: Array<string>) => void;
-  setIsChange: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const AddInfoForm = (({ type, dataList, hintText, text, setInfo, setIsChange }: Props) => {
+export const AddInfoForm = (({ type, dataList, hintText, text, setInfo }: Props) => {
   const [list, setList] = useState<Array<{ id: string, data: any }>>([]);
 
   useEffect(() => {

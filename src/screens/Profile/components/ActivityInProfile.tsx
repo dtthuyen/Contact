@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import { ModalProfile } from "./ModalProfile";
 import Toast from "react-native-toast-message";
 import { Colors } from "../../../themes/Colors";
+import useBoolean from "../../../hooks/useBoolean";
 
 const View = styled.View`
   flex-direction: column;
@@ -41,7 +42,7 @@ interface props {
 }
 
 export const ActivityInProfile = ({ type, data, onPress, src, text } : props) => {
-  const [modalVisible, setModalVisible] = useState(false)
+  const [modalVisible, setModalVisible, setModalInvisible] = useBoolean(false)
 
   const showToast = useCallback((title) => {
     Toast.show({
@@ -51,7 +52,7 @@ export const ActivityInProfile = ({ type, data, onPress, src, text } : props) =>
   },[])
 
   const openModal = useCallback(() => {
-    if(data.length > 1) setModalVisible(true)
+    if(data.length > 1) setModalVisible()
     else if(data.length == 1) onPress(data[0])
     else {
       if(type === 'email') showToast('No email')
@@ -88,7 +89,7 @@ export const ActivityInProfile = ({ type, data, onPress, src, text } : props) =>
       type={type}
       data={data}
       onPress={onPress}
-      setModalVisible={setModalVisible}
+      setModalInvisible={setModalInvisible}
       modalVisible={modalVisible}/>
 
     <Circle isActive={isActive} onPress={openModal}>

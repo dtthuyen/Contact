@@ -10,13 +10,13 @@ import moment from "moment";
 import { IC_CAMERA_ADD_AVT, ICON_ADD, ICON_DEL, MASK_AVT } from "../../assets";
 import { AddInfoForm } from "./AddInfoForm";
 import { Contact } from "../../utils/contact";
-import { useListId } from "../../store";
+import { syncDataContacts, useListId } from "../../store";
 import { Header } from "../../components/Header";
-import { syncDataContacts } from "../../store";
 import _ from "lodash";
 import { goBack, navigateToContactListScreen, navigateToProfileContactScreen } from "../../utils/navigation";
 import { Colors } from "../../themes/Colors";
 import { useNavigationParams } from "../../hooks/useNavigationParams";
+import useBoolean from "../../hooks/useBoolean";
 
 const Container = styled.View`
   flex: 1;
@@ -134,12 +134,12 @@ const TextDate = styled.Text<{ isNull: boolean }>`
 `;
 
 export interface AddContactScreenProps {
-  _contact?: Contact
-  idContact?: string
+  _contact?: Contact;
+  idContact?: string;
 }
 
 export const AddContactScreen = () => {
-  const [isChange, setIsChange] = useState<boolean>(false); //check thong tin co thay doi hay khong
+  const [change, setChange, setNoChange] = useBoolean();
 
   const { _contact, idContact } = useNavigationParams<AddContactScreenProps>() || {};
 
@@ -210,7 +210,7 @@ export const AddContactScreen = () => {
     return <ImgAvt source={pathAvt} />;
   }, [pathAvt]);
 
-  const [openPicker, setOpenPicker] = useState(false);
+  const [openPicker, setOpenPicker, setClosePicker] = useBoolean(false)
   const [dateString, setDateString] = useState<string>("");
   const [birthday, setBirthday] = useState<string>();
 
@@ -221,12 +221,12 @@ export const AddContactScreen = () => {
   }, [item.birthday]);
 
   const onConfirm = (date: any) => {
-    setOpenPicker(false);
+    setClosePicker();
     setDateString(moment(date).format("DD/MM/YYYY"));
   };
 
   const onCancelDate = useCallback(() => {
-    setOpenPicker(false);
+    setClosePicker();
   }, []);
 
   const onAddDate = useCallback(() => {
@@ -240,7 +240,7 @@ export const AddContactScreen = () => {
   }, []);
 
   const setOpenDatePicker = useCallback(() => {
-    setOpenPicker(true);
+    setOpenPicker();
   }, []);
 
   const getBirthday = useMemo(() => {
@@ -275,7 +275,7 @@ export const AddContactScreen = () => {
       if (newItem.phone.length > 0 || newItem.email.length > 0 || newItem.value.trim().length > 0) {
         syncDataContacts([newItem], listId);
         // navigation.navigate("ProfileContact", { idContact: newItem.id });
-        navigateToProfileContactScreen({idContact: newItem.id})
+        navigateToProfileContactScreen({ idContact: newItem.id });
       } else navigateToContactListScreen();
     }
   }, [item, listId, pathAvt, getBirthday]);
@@ -284,21 +284,21 @@ export const AddContactScreen = () => {
     return !_.isEqual(item[type], _contact[type]);
   }, [item, _contact]);
 
-  // useEffect(() => {
-  //   if (_contact) {
-  //     if (pathAvt !== _contact.avt || getBirthday !== _contact.birthday
-  //       || item.firstname !== _contact.firstname || item.lastname !== _contact.lastname
-  //       || item.company !== _contact.company || changeData("phone")
-  //       || changeData("email") || changeData("addr")) setIsChange(true);
-  //     else setIsChange(false);
-  //   } else {
-  //     if (item.phone.length || item.email.length
-  //       || item.addr.length || item.firstname.length
-  //       || item.lastname.length || item.company.length
-  //       || getBirthday.length) setIsChange(true);
-  //     else setIsChange(false);
-  //   }
-  // }, [item, _contact, getBirthday, pathAvt]);
+  useEffect(() => {
+    if (_contact) {
+      if (pathAvt !== _contact.avt || getBirthday !== _contact.birthday
+        || item.firstname !== _contact.firstname || item.lastname !== _contact.lastname
+        || item.company !== _contact.company || changeData("phone")
+        || changeData("email") || changeData("addr")) setChange();
+      else setNoChange();
+    } else {
+      if (item.phone.length || item.email.length
+        || item.addr.length || item.firstname.length
+        || item.lastname.length || item.company.length
+        || getBirthday.length) setChange();
+      else setNoChange();
+    }
+  }, [item, _contact, getBirthday, pathAvt]);
 
   return (
     <Container>
@@ -308,7 +308,7 @@ export const AddContactScreen = () => {
         sourceLeft="Hủy"
         sourceRight="Xong"
         type="addContact"
-        isChange={isChange} />
+        isChange={change} />
 
       <KeyboardAwareScrollView keyboardShouldPersistTaps={"always"}>
         <ViewAvt>
@@ -347,22 +347,19 @@ export const AddContactScreen = () => {
             text={"thêm số điện thoại"}
             hintText={"số điện thoại"}
             dataList={_contact?.phone || []}
-            setInfo={onChange}
-            setIsChange={setIsChange} />
+            setInfo={onChange}/>
           <AddInfoForm
             type={"email"}
             text={"thêm email"}
             hintText={"email"}
             dataList={_contact?.email || []}
-            setInfo={onChange}
-            setIsChange={setIsChange} />
+            setInfo={onChange}/>
           <AddInfoForm
             type={"addr"}
             text={"thêm địa chỉ"}
             hintText={"địa chỉ"}
             dataList={_contact?.addr || []}
-            setInfo={onChange}
-            setIsChange={setIsChange} />
+            setInfo={onChange} />
 
           <ViewPickDate>
             {typeof birthday === "string" ?

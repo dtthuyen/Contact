@@ -3,6 +3,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { useCallback, useState } from "react";
 import { Colors } from "../../themes/Colors";
+import useBoolean from "../../hooks/useBoolean";
 
 const ItemView = styled.TouchableOpacity`
   height: 44px;
@@ -44,10 +45,10 @@ interface props {
 }
 
 export const ItemSideBar = ({text, edit} : props) => {
-  const [isDelete, setDelete] = useState(false)
+  const [isDelete, setDelete, setNotDelete] = useBoolean(false)
 
   const onDel = useCallback(() => {
-    setDelete(true)
+    setDelete()
   }, [])
 
   return (

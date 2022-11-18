@@ -6,7 +6,6 @@ import HistoryForm from "./HistoryForm";
 import { ICON_CAMERA, ICON_MENU } from "../../assets";
 import { navigateToAddContactScreen, toggleDrawer } from "../../utils/navigation";
 import { Colors } from "../../themes/Colors";
-import { useCallback } from "react";
 
 const Container = styled.View`
   flex: 1;
@@ -36,14 +35,11 @@ const data = [
 ];
 
 export const HistoryScreen = () => {
-  const onPressRight = useCallback(() => {
-    navigateToAddContactScreen({})
-  }, [])
   return (
     <Container>
       <Header title={"Lịch sử"}
               onPressLeft={toggleDrawer}
-              onPressRight={onPressRight}
+              onPressRight={navigateToAddContactScreen}
               sourceLeft={ICON_MENU}
               sourceRight={ICON_CAMERA}
       />

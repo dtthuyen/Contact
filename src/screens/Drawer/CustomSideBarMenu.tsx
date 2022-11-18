@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { ItemSideBar } from "./ItemSideBar";
 import { Colors } from "../../themes/Colors";
 import { BaseStyles } from "../../themes/BaseStyles";
+import useBoolean from "../../hooks/useBoolean";
 
 const Container = styled.View`
   flex: 1;
@@ -111,11 +112,11 @@ const ViewShow = styled.View`
 export const CustomSidebarMenu = memo(() => {
   const {paddingTopInsets} = BaseStyles();
 
-  const [show, setShow] = useState(false);
-  const [edit, setEdit] = useState(false);
+  const [show, setShow, setNotShow] = useBoolean(false);
+  const [edit, setEdit, setNotEdit] = useBoolean(false);
 
   const onPress = useCallback(() => {
-    setShow(!show);
+    show ? setNotShow() : setShow();
   }, [show]);
 
   const textEdit = useMemo(() => {
@@ -123,7 +124,7 @@ export const CustomSidebarMenu = memo(() => {
   }, [edit]);
 
   const onEdit = useCallback(() => {
-    setEdit(!edit);
+    edit ? setNotEdit() : setEdit();
   }, [edit]);
 
   return (

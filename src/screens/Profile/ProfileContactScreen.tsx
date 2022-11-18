@@ -21,6 +21,7 @@ import { ModalProfile } from "./components/ModalProfile";
 import { navigateToAddContactScreen, navigateToHomeScreen } from "../../utils/navigation";
 import { Colors } from "../../themes/Colors";
 import { useNavigationParams } from "../../hooks/useNavigationParams";
+import useBoolean from "../../hooks/useBoolean";
 
 const Container = styled.View`
   flex: 1;
@@ -176,10 +177,10 @@ export const ProfileContactScreen = () => {
     await Linking.openURL(`mailto:${text}`);
   }, [item.email])
 
-  const [modalVisible, setModalVisible] = useState(false)
+  const [modalVisible, setModalVisible, setModalInvisible] = useBoolean(false)
 
   const toggleModal = useCallback(() => {
-    if(item.phone.length > 1) setModalVisible(!modalVisible)
+    if(item.phone.length > 1) setModalVisible()
     else if(item.phone.length == 1) onMess(item.phone[0])
     else Toast.show({
       type: 'error',
@@ -244,7 +245,7 @@ export const ProfileContactScreen = () => {
             type={'mess'}
             data={item.phone}
             onPress={onMess}
-            setModalVisible={setModalVisible}
+            setModalInvisible={setModalInvisible}
             modalVisible={modalVisible}/>
           <ViewChoose onPress={toggleModal}>
             <ChatText>Gửi tin nhắn</ChatText>

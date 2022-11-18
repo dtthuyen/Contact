@@ -95,12 +95,6 @@ export const ContactListScreen = () => {
     </AlphabetView>
   ), []);
 
-  const onPressRight = useCallback(() => {
-    console.log('XXXXXXXXXXX');
-    navigateToAddContactScreen({})
-
-  }, [])
-
   return (
     <Container>
       <Header

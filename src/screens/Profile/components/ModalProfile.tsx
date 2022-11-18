@@ -42,13 +42,13 @@ interface props {
   type: string
   data: Array<string>
   onPress: (text: string) => void
-  setModalVisible
+  setModalInvisible
   modalVisible: boolean
 }
 
-export const ModalProfile = ({type, data, onPress, setModalVisible, modalVisible} : props ) => {
+export const ModalProfile = ({type, data, onPress, setModalInvisible, modalVisible} : props ) => {
 
-  const onCancel = useCallback(() => { setModalVisible(false) }, [])
+  const onCancel = useCallback(() => { setModalInvisible() }, [])
 
   const title = useMemo(() => {
     if(type === 'email') return 'Choose email'
@@ -57,7 +57,7 @@ export const ModalProfile = ({type, data, onPress, setModalVisible, modalVisible
 
   const onChoose = useCallback((item) => {
     onPress(item);
-    setModalVisible(false)
+    setModalInvisible()
   }, [])
 
   return (
