@@ -11,6 +11,7 @@ import { AddContactScreenProps } from "../screens/AddContact/AddContactScreen";
 
 export const defaultScreenOptions = TransitionPresets.SlideFromRightIOS;
 
+// @ts-ignore
 export const navigationRef = React.createRef<NavigationContainerRef>();
 
 export const navigation = () => navigationRef.current!;

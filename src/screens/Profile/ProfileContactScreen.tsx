@@ -9,12 +9,9 @@ import {
 } from "../../assets";
 import { Alert, Linking, View } from "react-native";
 import { InfoContact } from "./components/InfoContact";
-import { useNavigation } from "@react-navigation/native";
 import { Contact } from "../../utils/contact";
-import { useContact, useListId } from "../../store";
 import { Header } from "../../components/Header";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { removeContact, syncDataContacts } from "../../store";
 import Toast from "react-native-toast-message";
 import { ActivityInProfile } from "./components/ActivityInProfile";
 import { ModalProfile } from "./components/ModalProfile";
@@ -22,6 +19,7 @@ import { navigateToAddContactScreen, navigateToHomeScreen } from "../../utils/na
 import { Colors } from "../../themes/Colors";
 import { useNavigationParams } from "../../hooks/useNavigationParams";
 import useBoolean from "../../hooks/useBoolean";
+import { removeContact, syncDataContacts, syncToMyCompany, useContact, useListId } from "../../store/contacts";
 
 const Container = styled.View`
   flex: 1;
@@ -118,6 +116,7 @@ export const ProfileContactScreen = () => {
   const { idContact } = useNavigationParams<ProfileContactScreenProps>();
 
   const listId = useListId("all")
+  const item: Contact | undefined = useContact(idContact);
 
   const onRemoveContact = useCallback(() => {
     Alert.alert("Xoá liên hệ", "Bạn có chắc chắn muốn xoá liên hệ?", [
@@ -134,10 +133,6 @@ export const ProfileContactScreen = () => {
       }
     ]);
   }, []);
-
-  const item: Contact | undefined = useContact(idContact);
-
-  console.log('Profile:', item);
 
   const editInfo = useCallback(() => {
     navigateToAddContactScreen({ _contact: item, idContact })
@@ -187,6 +182,10 @@ export const ProfileContactScreen = () => {
       text1: 'No phone number'
     });
   }, [])
+
+  const onSaveCompany = useCallback(() => {
+    syncToMyCompany([idContact])
+  }, [idContact])
 
   return (
     <Container>
@@ -253,6 +252,9 @@ export const ProfileContactScreen = () => {
 
           <ViewChoose onPress={onRemoveContact}>
             <DeleteText>Xóa người gọi</DeleteText>
+          </ViewChoose>
+          <ViewChoose onPress={onSaveCompany}>
+            <DeleteText>Save as my company </DeleteText>
           </ViewChoose>
         </View>
       </KeyboardAwareScrollView>

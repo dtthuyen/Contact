@@ -5,7 +5,7 @@ import { Header } from "../../components/Header";
 import ContactForm from "./ContactForm";
 import { ICON_CAMERA, ICON_MENU, ICON_SEARCH } from "../../assets";
 import { AlphabetList, DEFAULT_CHAR_INDEX } from "react-native-section-alphabet-list";
-import { useContactsByKeyValue } from "../../store";
+import { useContactsByKeyValue } from "../../store/contacts";
 import { StyleSheet } from "react-native";
 import { Colors } from "../../themes/Colors";
 import { navigateToAddContactScreen, toggleDrawer } from "../../utils/navigation";

@@ -11,7 +11,7 @@ import moment from "moment";
 import { IC_CAMERA_ADD_AVT, ICON_ADD, ICON_DEL, MASK_AVT } from "../../assets";
 import { AddInfoForm } from "./AddInfoForm";
 import { Contact } from "../../utils/contact";
-import { syncDataContacts, useListId } from "../../store";
+import { syncDataContacts, useListId } from "../../store/contacts";
 import { Header } from "../../components/Header";
 import _ from "lodash";
 import { goBack, navigateToContactListScreen, navigateToProfileContactScreen } from "../../utils/navigation";
@@ -85,7 +85,6 @@ const InputInfo = styled.TextInput`
   font-size: 15px;
   color: ${Colors.gray1};
 `;
-
 
 const MoreInfo = styled.View`
   flex: 2.5;
@@ -275,7 +274,6 @@ export const AddContactScreen = () => {
       // co it nhat ten/sdt/email moi luu
       if (newItem.phone.length > 0 || newItem.email.length > 0 || newItem.value.trim().length > 0) {
         syncDataContacts([newItem], listId);
-        // navigation.navigate("ProfileContact", { idContact: newItem.id });
         navigateToProfileContactScreen({ idContact: newItem.id });
       } else navigateToContactListScreen();
     }
@@ -391,7 +389,6 @@ export const AddContactScreen = () => {
 
         </MoreInfo>
       </KeyboardAwareScrollView>
-
 
     </Container>
   );

@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import {ICON_LOGO, IMG_BANNER_LOGO, SMALL_CIRCLE} from '../../assets'
 import { Colors } from "../../themes/Colors";
 import { navigateToHomeScreen } from "../../utils/navigation";
+import { memo } from "react";
 
 const Container = styled.View`
   flex: 1;
@@ -104,7 +105,9 @@ const TextLoginManual = styled(TextLogin)`
   color: ${Colors.backgroundColor};
 `;
 
-const LoginScreen = () => {
+console.log('login screen mount');
+
+const LoginScreen = memo(function LoginScreen()  {
   return (
     <Container>
       <SectionImage>
@@ -134,6 +137,6 @@ const LoginScreen = () => {
       </SectionLogin>
     </Container>
   );
-};
+});
 
 export default LoginScreen;

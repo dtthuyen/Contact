@@ -2,9 +2,8 @@ import * as React from "react";
 import { useCallback } from "react";
 import styled from 'styled-components'
 import { MASK_AVT } from "../../assets";
-import { useNavigation } from "@react-navigation/native";
 import { Contact } from "../../utils/contact";
-import { useContact } from "../../store";
+import { useContact } from "../../store/contacts";
 import { Colors } from "../../themes/Colors";
 import { navigateToProfileContactScreen } from "../../utils/navigation";
 
@@ -74,6 +73,11 @@ const ContactForm = ({idContact} : Props) => {
   } ,[])
 
   const contact: Contact | undefined = useContact(idContact);
+
+  if (!contact) {
+    return null
+  }
+
   return (
   <Container onPress={onPress}>
     <Body>

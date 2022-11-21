@@ -2,7 +2,6 @@ import * as React from "react";
 import { memo, useMemo } from "react";
 import styled from "styled-components";
 import { TouchableOpacity } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Colors } from "../themes/Colors";
 import { BaseStyles } from "../themes/BaseStyles";
 
